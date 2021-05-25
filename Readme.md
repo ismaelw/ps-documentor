@@ -7,7 +7,10 @@ For now I just want to have it sitting here and enhance it.
 
 ## Usage
 
-See the `New-ScriptDocumentation` function below for how to use this Script. You Basically have to options
+See the `New-ScriptDocumentation` function below for how to use this Script. You Basically have two options:
+
+-   Create one documentation file for all functions in all provided script files or one documentation for a single script file provided
+-   Create multiple documentation files for each script file provided
 
 ## Contents
 
