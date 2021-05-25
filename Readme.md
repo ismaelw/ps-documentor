@@ -5,6 +5,8 @@ I just created this script and I am testing it to multiple use cases. This whole
 
 For now I just want to have it sitting here and enhance it.
 
+An example documentation generated for this script can be found inside the `Output` folder.
+
 ## Usage
 
 See the `New-ScriptDocumentation` function below for how to use this Script. You Basically have two options:
