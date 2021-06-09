@@ -36,7 +36,7 @@ Function New-MarkdownDocumentation {
             }
 
             Try {
-                $FilenameNoExt = (Get-Item -Path "$($Element.Path)\$($Element.File)").Basename
+                $FilenameNoExt = (Get-Item -Path "$global:ProjectFolderParent$($Element.Path)\$($Element.File)").Basename
                 $OutputFile = "$DestinationPath\$($FilenameDate)_Documentation_$($FilenameNoExt).md"
                 Add-Content -Path $OutputFile -Value @(
                     "# PowerShell Script Functions Documentation",
@@ -56,17 +56,27 @@ Function New-MarkdownDocumentation {
                     ForEach ($FunctionItem in $Element.Functions) {
                         Add-Content -Path $OutputFile -Value "## $($FunctionItem.Name)"
                         Add-Content -Path $OutputFile -Value "Location: $($FunctionItem.Location)"
-                        If (Test-Path -Path $FunctionItem.Location) {
+                        If (Test-Path -Path "$global:ProjectFolderParent$($FunctionItem.Location)") {
                             Add-Content -Path $OutputFile -Value @(
                                 "### Syntax",
                                 "``````",
                                 "$($FunctionItem.Syntax)",
-                                "``````",
-                                "### Synopsis",
-                                "$($FunctionItem.Synopsis) `r`n",
-                                "### Description",
-                                "$($FunctionItem.Description) `r`n"
+                                "``````"
                             )
+
+                            If (-not ([String]::IsNullOrEmpty($FunctionItem.Synopsis))) {
+                                Add-Content -Path $OutputFile -Value @(
+                                    "### Synopsis",
+                                    "$($FunctionItem.Synopsis) `r`n"
+                                )
+                            }
+                            
+                            If (-not ([String]::IsNullOrEmpty($FunctionItem.Description))) {
+                                Add-Content -Path $OutputFile -Value @(
+                                    "### Description",
+                                    "$($FunctionItem.Description) `r`n"
+                                )
+                            }
 
                             If ($FunctionItem.Examples.Count -gt 0) {
                                 Add-Content -Path $OutputFile -Value "### Examples"
@@ -147,17 +157,27 @@ Function New-MarkdownDocumentation {
                     ForEach ($FunctionItem in $Element.Functions) {
                         Add-Content -Path $OutputFile -Value "### $($FunctionItem.Name)"
                         Add-Content -Path $OutputFile -Value "Location: $($FunctionItem.Location)"
-                        If (Test-Path -Path $FunctionItem.Location) {
+                        If (Test-Path -Path "$global:ProjectFolderParent$($FunctionItem.Location)") {
                             Add-Content -Path $OutputFile -Value @(
                                 "### Syntax",
                                 "``````",
                                 "$($FunctionItem.Syntax)",
-                                "``````",
-                                "### Synopsis",
-                                "$($FunctionItem.Synopsis) `r`n",
-                                "### Description",
-                                "$($FunctionItem.Description) `r`n"
+                                "``````"
                             )
+
+                            If (-not ([String]::IsNullOrEmpty($FunctionItem.Synopsis))) {
+                                Add-Content -Path $OutputFile -Value @(
+                                    "### Synopsis",
+                                    "$($FunctionItem.Synopsis) `r`n"
+                                )
+                            }
+                            
+                            If (-not ([String]::IsNullOrEmpty($FunctionItem.Description))) {
+                                Add-Content -Path $OutputFile -Value @(
+                                    "### Description",
+                                    "$($FunctionItem.Description) `r`n"
+                                )
+                            }
 
                             If ($FunctionItem.Examples.Count -gt 0) {
                                 Add-Content -Path $OutputFile -Value "### Examples"

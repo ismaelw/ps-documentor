@@ -10,12 +10,17 @@ Function Start-FileProcessing {
     )
 
     $FileName = Split-Path -Path $File -Leaf
-    $FilePath = Split-Path -Path $File -Parent
+    $RelativePath = "\$global:ProjectFolderName\$([System.IO.Path]::GetRelativePath($global:ProjectFolderPath, [System.IO.Path]::GetDirectoryName($File)))".TrimEnd('.')
+
+    If ($RelativePath.Chars($RelativePath.Length - 1) -ne '\') {
+        $RelativePath = "$RelativePath\"
+    }
+
     $FilenameNoExt = (Get-Item $File).Basename
 
     $ResultItem = New-Object -TypeName PSObject -Property @{
         File      = $FileName
-        Path      = $FilePath
+        Path      = $RelativePath
         Success   = ""
         Functions = @()
         Error     = ""
@@ -25,7 +30,7 @@ Function Start-FileProcessing {
 
     If ($TempFile.Success) {
         Write-Verbose "Generating documentation data for Script '$FileName'"
-        $Documentation = Get-FileDocumentation -Script $TempFile.Value -OriginalScript "$FilePath\$FileName"
+        $Documentation = Get-FileDocumentation -Script $TempFile.Value -OriginalScript "$RelativePath$FileName"
         Write-Verbose "Removing temporary script file"
         If ($Documentation.Success) {
             Remove-Item $TempFile.Value

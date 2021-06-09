@@ -136,5 +136,6 @@ An array of assemblies needed by the script
 -   [x] Possibility to create multiple documentation files for each Script or a single documentation containing all of them
 -   [x] Add Description and Synopsis to Documentation
 -   [x] Export defined examples
--   [ ] Figure out how to deal with duplicate attributes beeing documented when using multiple parameter sets
+-   [x] Print relative path to script file instead of absolute path
+-   [x] Figure out how to deal with duplicate attributes beeing documented when using multiple parameter sets
 -   [ ] Find a way to automatically parse script files to find all assemblies

@@ -78,7 +78,11 @@ Function Get-FileDocumentation {
             $EscapedSyntax = $Syntax -replace "\[", "``[" -replace "\]", "``]"
             
             If ($FunctionDescription -like "*$EscapedSyntax*") {
-                $FunctionDescription = "-"
+                $FunctionDescription = $FunctionSynopsis
+            }
+
+            If ($FunctionDescription -eq '') {
+                $FunctionDescription = $FunctionSynopsis
             }
             
             $Examples = Get-Help -Name $FunctionDefinition.Name -Examples
@@ -94,7 +98,7 @@ Function Get-FileDocumentation {
 
             $Function = New-Object -TypeName PSObject -Property @{
                 Name        = $FunctionDefinition.Name
-                Parameters  = $FunctionParameters
+                Parameters  = $FunctionParameters | Sort-Object -Property Name -Unique
                 Location    = $Location
                 Syntax      = $Syntax
                 Description = $FunctionDescription.Text
